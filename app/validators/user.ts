@@ -23,3 +23,9 @@ export const createUserValidator = vine.create({
 
   role: vine.enum(['admin', 'user']),
 })
+
+export const updateUserValidator = vine.create({
+  fullName: vine.string().trim().minLength(2),
+  email: vine.string().trim().email(),
+  role: vine.enum(['admin', 'user']),
+})

@@ -1,6 +1,6 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import User from '#models/user'
-import { createUserValidator } from '#validators/user'
+import { createUserValidator, updateUserValidator } from '#validators/user'
 
 export default class UsersController {
   async index({ view }: HttpContext) {
@@ -15,6 +15,18 @@ export default class UsersController {
   async store({ request, response }: HttpContext) {
     const data = await request.validateUsing(createUserValidator)
 
+    // Kontrola, zda e-mail už neexistuje
+    const existingUser = await User.query()
+      .where('email', data.email)
+      .first()
+
+    if (existingUser) {
+      return response.badRequest(
+        'Uživatel s tímto e-mailem již existuje.'
+      )
+    }
+
+    // Vytvoření nového uživatele
     await User.create(data)
 
     return response.redirect('/admin/users')
@@ -26,35 +38,33 @@ export default class UsersController {
     return view.render('pages/admin/edit', { user })
   }
 
-  async update({ params, request, response }: HttpContext) {
+
+  async update({ params, request, response, auth }: HttpContext) {
     const user = await User.findOrFail(params.id)
 
-    const fullName = request.input('fullName')
-    const email = request.input('email')
-    const role = request.input('role')
+    // Kontrola zadaných údajů
+    const data = await request.validateUsing(updateUserValidator)
 
-    if (
-      typeof fullName !== 'string' ||
-      fullName.trim().length < 2 ||
-      typeof email !== 'string' ||
-      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ||
-      !['admin', 'user'].includes(role)
-    ) {
-      return response.badRequest('Neplatné údaje')
-    }
-
+    // Kontrola, zda e-mail nepoužívá jiný uživatel
     const existingUser = await User.query()
-      .where('email', email.trim())
+      .where('email', data.email)
       .whereNot('id', user.id)
       .first()
 
     if (existingUser) {
-      return response.badRequest('E-mail již existuje')
+      return response.badRequest('E-mail již používá jiný uživatel.')
     }
 
-    user.fullName = fullName.trim()
-    user.email = email.trim()
-    user.role = role
+    // Administrátor si nesmí odebrat vlastní roli
+    if (auth.user?.id === user.id && data.role !== 'admin') {
+      return response.badRequest(
+        'Nemůžeš si odebrat vlastní administrátorskou roli.'
+      )
+    }
+
+    user.fullName = data.fullName
+    user.email = data.email
+    user.role = data.role
 
     await user.save()
 

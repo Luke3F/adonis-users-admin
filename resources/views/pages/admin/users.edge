@@ -1,57 +1,91 @@
+
 <!DOCTYPE html>
 <html lang="cs">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Správa uživatelů</title>
+  <link rel="stylesheet" href="/css/admin.css">
 </head>
 <body>
-  <h1>Správa uživatelů</h1>
 
-  <a href="/dashboard">Zpět na dashboard</a>
+  <main class="container">
 
-  <h2>Seznam uživatelů</h2>
-  <p><a href="/admin/users/create">+ Přidat uživatele</a></p>
+    <div class="header">
+      <div>
+        <h1>Správa uživatelů</h1>
+        <p class="subtitle">
+          Přehled a správa uživatelských účtů
+        </p>
+      </div>
 
-  <table border="1" cellpadding="10">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Jméno</th>
-        <th>E-mail</th>
-        <th>Role</th>
-        <th>Akce</th>
-      </tr>
-    </thead>
-    <tbody>
-      @each(user in users)
-        <tr>
-          <td>{{ user.id }}</td>
-          <td>{{ user.fullName || 'Neuvedeno' }}</td>
-          <td>{{ user.email }}</td>
-          <td>{{ user.role }}</td>
+      <a href="/admin/users/create" class="btn btn-primary">
+        + Přidat uživatele
+      </a>
+    </div>
 
-          <td>
-            <a href="/admin/users/{{ user.id }}/edit">
-              Upravit
-            </a>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Jméno</th>
+            <th>E-mail</th>
+            <th>Role</th>
+            <th>Akce</th>
+          </tr>
+        </thead>
 
-            <form
-              method="POST"
-              action="/admin/users/{{ user.id }}/delete"
-              style="display: inline;"
-              onsubmit="return confirm('Opravdu chceš smazat tohoto uživatele?')"
-            >
-              {{ csrfField() }}
+        <tbody>
+          @each(user in users)
+            <tr>
+              <td>{{ user.id }}</td>
+              <td>{{ user.fullName || 'Neuvedeno' }}</td>
+              <td>{{ user.email }}</td>
+              <td>
+                @if(user.role === 'admin')
+                  Administrátor
+                @else
+                  Uživatel
+                @endif
+              </td>
 
-              <button type="submit">
-                Smazat
-              </button>
-            </form>
-          </td>
+              <td>
+                <div class="actions">
 
-        </tr>
-      @end
-    </tbody>
-  </table>
+                  <a href="/admin/users/{{ user.id }}/edit">
+                    Upravit
+                  </a>
+
+                  <form
+                    method="POST"
+                    action="/admin/users/{{ user.id }}/delete"
+                    onsubmit="return confirm('Opravdu chceš smazat tohoto uživatele?')"
+                  >
+                    {{ csrfField() }}
+
+                    <button type="submit" class="btn btn-danger">
+                      Smazat
+                    </button>
+                  </form>
+
+                </div>
+              </td>
+            </tr>
+          @end
+        </tbody>
+      </table>
+    </div>
+
+    <p class="subtitle">
+      Celkem uživatelů: {{ users.length }}
+    </p>
+
+    <p>
+      <a href="/dashboard">← Zpět na dashboard</a>
+    </p>
+
+  </main>
+
 </body>
 </html>
