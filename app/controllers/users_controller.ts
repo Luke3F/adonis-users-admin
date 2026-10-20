@@ -1,88 +1,96 @@
-import type { HttpContext } from '@adonisjs/core/http'
-import User from '#models/user'
-import { createUserValidator, updateUserValidator } from '#validators/user'
+import type { HttpContext } from '@adonisjs/core/http' // Typ pro HTTP požadavky
+import User from '#models/user' // Model uživatele
+import { createUserValidator, updateUserValidator } from '#validators/user' // Validace údajů
 
 export default class UsersController {
+  // Controller pro správu uživatelů
+
   async index({ view }: HttpContext) {
-    const users = await User.query().orderBy('id', 'asc')
-    return view.render('pages/admin/users', { users })
+    // Zobrazení seznamu uživatelů
+    const users = await User.query().orderBy('id', 'asc') // Načtení uživatelů podle ID
+    return view.render('pages/admin/users', { users }) // Zobrazení tabulky
   }
 
   async create({ view }: HttpContext) {
-    return view.render('pages/admin/create')
+    // Formulář pro nového uživatele
+    return view.render('pages/admin/create') // Zobrazení formuláře
   }
 
   async store({ request, response }: HttpContext) {
-    const data = await request.validateUsing(createUserValidator)
+    // Vytvoření uživatele
+    const data = await request.validateUsing(createUserValidator) // Kontrola údajů
 
-    // Kontrola, zda e-mail už neexistuje
-    const existingUser = await User.query()
-      .where('email', data.email)
-      .first()
+    const existingUser = await User.query() // Vyhledání uživatele
+      .where('email', data.email) // Kontrola e-mailu
+      .first() // První nalezený záznam
 
     if (existingUser) {
+      // Pokud e-mail již existuje
       return response.badRequest(
-        'Uživatel s tímto e-mailem již existuje.'
+        // Vrácení chyby
+        'Uživatel s tímto e-mailem již existuje.' // Chybová zpráva
       )
     }
 
-    // Vytvoření nového uživatele
-    await User.create(data)
+    await User.create(data) // Uložení nového uživatele
 
-    return response.redirect('/admin/users')
+    return response.redirect('/admin/users') // Návrat na seznam
   }
 
   async edit({ params, view }: HttpContext) {
-    const user = await User.findOrFail(params.id)
+    // Formulář pro úpravu
+    const user = await User.findOrFail(params.id) // Vyhledání podle ID
 
-    return view.render('pages/admin/edit', { user })
+    return view.render('pages/admin/edit', { user }) // Zobrazení formuláře
   }
 
-
   async update({ params, request, response, auth }: HttpContext) {
-    const user = await User.findOrFail(params.id)
+    // Úprava uživatele
+    const user = await User.findOrFail(params.id) // Načtení uživatele
 
-    // Kontrola zadaných údajů
-    const data = await request.validateUsing(updateUserValidator)
+    const data = await request.validateUsing(updateUserValidator) // Validace údajů
 
-    // Kontrola, zda e-mail nepoužívá jiný uživatel
-    const existingUser = await User.query()
-      .where('email', data.email)
-      .whereNot('id', user.id)
-      .first()
+    const existingUser = await User.query() // Hledání stejného e-mailu
+      .where('email', data.email) // Porovnání e-mailu
+      .whereNot('id', user.id) // Vynechání aktuálního uživatele
+      .first() // První nalezený záznam
 
     if (existingUser) {
-      return response.badRequest('E-mail již používá jiný uživatel.')
+      // Pokud e-mail používá někdo jiný
+      return response.badRequest('E-mail již používá jiný uživatel.') // Chybová zpráva
     }
 
-    // Administrátor si nesmí odebrat vlastní roli
     if (auth.user?.id === user.id && data.role !== 'admin') {
+      // Ochrana vlastní admin role
       return response.badRequest(
-        'Nemůžeš si odebrat vlastní administrátorskou roli.'
+        // Zamítnutí změny
+        'Nemůžeš si odebrat vlastní administrátorskou roli.' // Chybová zpráva
       )
     }
 
-    user.fullName = data.fullName
-    user.email = data.email
-    user.role = data.role
+    user.fullName = data.fullName // Změna jména
+    user.email = data.email // Změna e-mailu
+    user.role = data.role // Změna role
 
-    await user.save()
+    await user.save() // Uložení změn
 
-    return response.redirect('/admin/users')
+    return response.redirect('/admin/users') // Návrat na seznam
   }
 
   async destroy({ params, auth, response }: HttpContext) {
-    const user = await User.findOrFail(params.id)
+    // Smazání uživatele
+    const user = await User.findOrFail(params.id) // Vyhledání podle ID
 
-    // Administrátor nesmí smazat vlastní účet
     if (auth.user?.id === user.id) {
+      // Ochrana vlastního účtu
       return response.badRequest(
-        'Nemůžeš smazat svůj vlastní účet.'
+        // Zamítnutí smazání
+        'Nemůžeš smazat svůj vlastní účet.' // Chybová zpráva
       )
     }
 
-    await user.delete()
+    await user.delete() // Smazání z databáze
 
-    return response.redirect('/admin/users')
+    return response.redirect('/admin/users') // Návrat na seznam
   }
 }

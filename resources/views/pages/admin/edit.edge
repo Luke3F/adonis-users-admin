@@ -1,31 +1,32 @@
+
 <!DOCTYPE html>
-<html lang="cs">
+<html lang="cs"> <!-- Český jazyk -->
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Upravit uživatele</title>
-  <link rel="stylesheet" href="/css/admin.css">
+  <meta charset="UTF-8"> <!-- České znaky -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Mobilní zobrazení -->
+  <title>Upravit uživatele</title> <!-- Název stránky -->
+  <link rel="stylesheet" href="/css/admin.css"> <!-- Připojení CSS -->
 </head>
 <body>
 
-  <main class="container">
+  <main class="container"> <!-- Hlavní obsah -->
 
-    <div class="header">
+    <div class="header"> <!-- Hlavička -->
       <div>
-        <h1>Upravit uživatele</h1>
-        <p class="subtitle">
+        <h1>Upravit uživatele</h1> <!-- Nadpis -->
+        <p class="subtitle"> <!-- Popis stránky -->
           Úprava uživatelského účtu
         </p>
       </div>
     </div>
 
-    <div class="form-card">
+    <div class="form-card"> <!-- Vzhled formuláře -->
 
-      <form method="POST" action="/admin/users/{{ user.id }}/update">
-        {{ csrfField() }}
+      <form method="POST" action="/admin/users/{{ user.id }}/update"> <!-- Uložení změn -->
+        {{ csrfField() }} <!-- CSRF ochrana -->
 
-        <div class="form-group">
-          <label for="fullName">Jméno</label>
+        <div class="form-group"> <!-- Úprava jména -->
+          <label for="fullName">Jméno</label> <!-- Popisek -->
           <input
             type="text"
             id="fullName"
@@ -33,23 +34,23 @@
             value="{{ user.fullName || '' }}"
             minlength="2"
             required
-          >
+          > <!-- Původní jméno -->
         </div>
 
-        <div class="form-group">
-          <label for="email">E-mail</label>
+        <div class="form-group"> <!-- Úprava e-mailu -->
+          <label for="email">E-mail</label> <!-- Popisek -->
           <input
             type="email"
             id="email"
             name="email"
             value="{{ user.email }}"
             required
-          >
+          > <!-- Původní e-mail -->
         </div>
 
-        <div class="form-group">
-          <label for="role">Role</label>
-          <select id="role" name="role">
+        <div class="form-group"> <!-- Úprava role -->
+          <label for="role">Role</label> <!-- Popisek -->
+          <select id="role" name="role"> <!-- Výběr role -->
             <option value="user" @if(user.role === 'user') selected @endif>
               Uživatel
             </option>
@@ -59,12 +60,12 @@
           </select>
         </div>
 
-        <div class="form-actions">
-          <button type="submit" class="btn btn-primary">
+        <div class="form-actions"> <!-- Tlačítka formuláře -->
+          <button type="submit" class="btn btn-primary"> <!-- Uložení změn -->
             Uložit změny
           </button>
 
-          <a href="/admin/users" class="btn">
+          <a href="/admin/users" class="btn"> <!-- Zrušení -->
             Zrušit
           </a>
         </div>

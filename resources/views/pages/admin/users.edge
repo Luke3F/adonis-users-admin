@@ -1,59 +1,59 @@
 
 <!DOCTYPE html>
-<html lang="cs">
+<html lang="cs"> <!-- Český jazyk stránky -->
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Správa uživatelů</title>
-  <link rel="stylesheet" href="/css/admin.css">
+  <meta charset="UTF-8"> <!-- České znaky -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Mobilní zobrazení -->
+  <title>Správa uživatelů</title> <!-- Název stránky -->
+  <link rel="stylesheet" href="/css/admin.css"> <!-- Připojení CSS -->
 </head>
 <body>
 
-  <main class="container">
+  <main class="container"> <!-- Hlavní obsah -->
 
-    <div class="header">
+    <div class="header"> <!-- Hlavička stránky -->
       <div>
-        <h1>Správa uživatelů</h1>
-        <p class="subtitle">
+        <h1>Správa uživatelů</h1> <!-- Hlavní nadpis -->
+        <p class="subtitle"> <!-- Podnadpis -->
           Přehled a správa uživatelských účtů
         </p>
       </div>
 
-      <a href="/admin/users/create" class="btn btn-primary">
+      <a href="/admin/users/create" class="btn btn-primary"> <!-- Odkaz na přidání -->
         + Přidat uživatele
       </a>
     </div>
 
-    <div class="table-wrapper">
-      <table>
-        <thead>
+    <div class="table-wrapper"> <!-- Obal tabulky -->
+      <table> <!-- Tabulka uživatelů -->
+        <thead> <!-- Hlavička tabulky -->
           <tr>
-            <th>ID</th>
-            <th>Jméno</th>
-            <th>E-mail</th>
-            <th>Role</th>
-            <th>Akce</th>
+            <th>ID</th> <!-- ID uživatele -->
+            <th>Jméno</th> <!-- Jméno -->
+            <th>E-mail</th> <!-- E-mail -->
+            <th>Role</th> <!-- Uživatelská role -->
+            <th>Akce</th> <!-- Dostupné akce -->
           </tr>
         </thead>
 
-        <tbody>
+        <tbody> <!-- Obsah tabulky -->
           @each(user in users)
-            <tr>
-              <td>{{ user.id }}</td>
-              <td>{{ user.fullName || 'Neuvedeno' }}</td>
-              <td>{{ user.email }}</td>
+            <tr> <!-- Jeden uživatel -->
+              <td>{{ user.id }}</td> <!-- ID -->
+              <td>{{ user.fullName || 'Neuvedeno' }}</td> <!-- Jméno -->
+              <td>{{ user.email }}</td> <!-- E-mail -->
               <td>
                 @if(user.role === 'admin')
-                  Administrátor
+                  Administrátor <!-- Admin role -->
                 @else
-                  Uživatel
+                  Uživatel <!-- Běžná role -->
                 @endif
               </td>
 
               <td>
-                <div class="actions">
+                <div class="actions"> <!-- Tlačítka akcí -->
 
-                  <a href="/admin/users/{{ user.id }}/edit">
+                  <a href="/admin/users/{{ user.id }}/edit"> <!-- Úprava účtu -->
                     Upravit
                   </a>
 
@@ -61,10 +61,10 @@
                     method="POST"
                     action="/admin/users/{{ user.id }}/delete"
                     onsubmit="return confirm('Opravdu chceš smazat tohoto uživatele?')"
-                  >
-                    {{ csrfField() }}
+                  > <!-- Potvrzení smazání -->
+                    {{ csrfField() }} <!-- CSRF ochrana -->
 
-                    <button type="submit" class="btn btn-danger">
+                    <button type="submit" class="btn btn-danger"> <!-- Smazání účtu -->
                       Smazat
                     </button>
                   </form>
@@ -77,12 +77,12 @@
       </table>
     </div>
 
-    <p class="subtitle">
+    <p class="subtitle"> <!-- Počet účtů -->
       Celkem uživatelů: {{ users.length }}
     </p>
 
     <p>
-      <a href="/dashboard">← Zpět na dashboard</a>
+      <a href="/dashboard">← Zpět na dashboard</a> <!-- Návrat zpět -->
     </p>
 
   </main>

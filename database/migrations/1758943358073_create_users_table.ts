@@ -1,22 +1,26 @@
-import { BaseSchema } from '@adonisjs/lucid/schema'
+import { BaseSchema } from '@adonisjs/lucid/schema' // Základ databázových migrací
 
 export default class extends BaseSchema {
-  protected tableName = 'users'
+  // Třída databázové migrace
+  protected tableName = 'users' // Název tabulky
 
   async up() {
+    // Vytvoření tabulky
     this.schema.createTable(this.tableName, (table) => {
-      table.increments('id').notNullable()
-      table.string('full_name').nullable()
-      table.string('email', 254).notNullable().unique()
-      table.string('password').notNullable()
-      table.string('role').notNullable().defaultTo('user')
+      // Definice tabulky
+      table.increments('id').notNullable() // Jedinečné ID uživatele
+      table.string('full_name').nullable() // Jméno uživatele
+      table.string('email', 254).notNullable().unique() // Unikátní e-mail
+      table.string('password').notNullable() // Heslo uživatele
+      table.string('role').notNullable().defaultTo('user') // Výchozí role uživatele
 
-      table.timestamp('created_at').notNullable()
-      table.timestamp('updated_at').nullable()
+      table.timestamp('created_at').notNullable() // Datum vytvoření
+      table.timestamp('updated_at').nullable() // Datum poslední úpravy
     })
   }
 
   async down() {
-    this.schema.dropTable(this.tableName)
+    // Vrácení migrace zpět
+    this.schema.dropTable(this.tableName) // Odstranění tabulky
   }
 }

@@ -1,14 +1,18 @@
-import type { HttpContext } from '@adonisjs/core/http'
-import type { NextFn } from '@adonisjs/core/types/http'
+import type { HttpContext } from '@adonisjs/core/http' // Typ HTTP kontextu
+import type { NextFn } from '@adonisjs/core/types/http' // Typ další funkce
 
 export default class AdminMiddleware {
+  // Middleware pro administrátory
   async handle(ctx: HttpContext, next: NextFn) {
+    // Zpracování požadavku
     if (ctx.auth.user?.role !== 'admin') {
+      // Kontrola admin role
       return ctx.response.forbidden({
-        message: 'Přístup pouze pro administrátory',
+        // Zamítnutí přístupu
+        message: 'Přístup pouze pro administrátory', // Chybová zpráva
       })
     }
 
-    return next()
+    return next() // Povolení pokračování
   }
 }

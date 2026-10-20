@@ -1,51 +1,27 @@
-/*
-|--------------------------------------------------------------------------
-| HTTP kernel file
-|--------------------------------------------------------------------------
-|
-| The HTTP kernel file is used to register the middleware with the server
-| or the router.
-|
-*/
+import router from '@adonisjs/core/services/router' // Správa rout
+import server from '@adonisjs/core/services/server' // Správa serveru
 
-import router from '@adonisjs/core/services/router'
-import server from '@adonisjs/core/services/server'
+server.errorHandler(() => import('#exceptions/handler')) // Zpracování chyb
 
-/**
- * The error handler is used to convert an exception
- * to an HTTP response.
- */
-server.errorHandler(() => import('#exceptions/handler'))
-
-/**
- * The server middleware stack runs middleware on all the HTTP
- * requests, even if there is no route registered for
- * the request URL.
- */
 server.use([
-  () => import('#middleware/container_bindings_middleware'),
-  () => import('@adonisjs/static/static_middleware'),
-  () => import('@adonisjs/vite/vite_middleware'),
+  // Middleware pro všechny požadavky
+  () => import('#middleware/container_bindings_middleware'), // Propojení služeb
+  () => import('@adonisjs/static/static_middleware'), // Statické soubory
+  () => import('@adonisjs/vite/vite_middleware'), // Podpora Vite
 ])
 
-/**
- * The router middleware stack runs middleware on all the HTTP
- * requests with a registered route.
- */
 router.use([
-  () => import('@adonisjs/core/bodyparser_middleware'),
-  () => import('@adonisjs/session/session_middleware'),
-  () => import('@adonisjs/shield/shield_middleware'),
-  () => import('@adonisjs/auth/initialize_auth_middleware'),
-  () => import('#middleware/silent_auth_middleware'),
+  // Middleware pro existující routy
+  () => import('@adonisjs/core/bodyparser_middleware'), // Zpracování formulářů
+  () => import('@adonisjs/session/session_middleware'), // Uživatelské relace
+  () => import('@adonisjs/shield/shield_middleware'), // Bezpečnost požadavků
+  () => import('@adonisjs/auth/initialize_auth_middleware'), // Inicializace přihlášení
+  () => import('#middleware/silent_auth_middleware'), // Tichá kontrola přihlášení
 ])
 
-/**
- * Named middleware collection must be explicitly assigned to
- * the routes or the routes group.
- */
 export const middleware = router.named({
-  admin: () => import('#middleware/admin_middleware'),
-  guest: () => import('#middleware/guest_middleware'),
-  auth: () => import('#middleware/auth_middleware'),
+  // Registrace pojmenovaných middleware
+  admin: () => import('#middleware/admin_middleware'), // Kontrola admin role
+  guest: () => import('#middleware/guest_middleware'), // Přístup pro hosty
+  auth: () => import('#middleware/auth_middleware'), // Kontrola přihlášení
 })

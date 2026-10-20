@@ -1,165 +1,166 @@
+
 * {
-  box-sizing: border-box;
+  box-sizing: border-box; /* Rozměry prvků */
 }
 
 body {
-  margin: 0;
-  background: #f8f9fa;
-  color: #24292f;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 14px;
-  line-height: 1.5;
+  margin: 0; /* Odstranění okrajů */
+  background: #f8f9fa; /* Barva pozadí */
+  color: #24292f; /* Barva textu */
+  font-family: Arial, Helvetica, sans-serif; /* Typ písma */
+  font-size: 14px; /* Velikost textu */
+  line-height: 1.5; /* Výška řádku */
 }
 
 .container {
-  max-width: 1000px;
-  margin: 60px auto;
-  padding: 0 24px;
+  max-width: 1000px; /* Maximální šířka */
+  margin: 60px auto; /* Vycentrování obsahu */
+  padding: 0 24px; /* Vnitřní odsazení */
 }
 
 .header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 32px;
+  display: flex; /* Flexbox rozložení */
+  align-items: center; /* Svislé zarovnání */
+  justify-content: space-between; /* Rozestupy prvků */
+  margin-bottom: 32px; /* Spodní mezera */
 }
 
 h1 {
-  margin: 0;
-  font-size: 24px;
-  font-weight: 600;
+  margin: 0; /* Bez okrajů */
+  font-size: 24px; /* Velikost nadpisu */
+  font-weight: 600; /* Tučné písmo */
 }
 
 h2 {
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 16px; /* Velikost podnadpisu */
+  font-weight: 600; /* Tučné písmo */
 }
 
 .subtitle {
-  margin: 6px 0 0;
-  color: #6b7280;
+  margin: 6px 0 0; /* Odsazení textu */
+  color: #6b7280; /* Šedý text */
 }
 
 a {
-  color: #2563eb;
-  text-decoration: none;
+  color: #2563eb; /* Barva odkazu */
+  text-decoration: none; /* Bez podtržení */
 }
 
 a:hover {
-  text-decoration: underline;
+  text-decoration: underline; /* Podtržení při najetí */
 }
 
 .btn {
-  display: inline-block;
-  padding: 9px 14px;
-  border: 1px solid #d1d5db;
-  border-radius: 4px;
-  background: white;
-  color: #24292f;
-  font: inherit;
-  cursor: pointer;
+  display: inline-block; /* Zobrazení tlačítka */
+  padding: 9px 14px; /* Vnitřní odsazení */
+  border: 1px solid #d1d5db; /* Ohraničení */
+  border-radius: 4px; /* Zaoblení rohů */
+  background: white; /* Bílé pozadí */
+  color: #24292f; /* Barva textu */
+  font: inherit; /* Písmo z rodiče */
+  cursor: pointer; /* Kurzor ruky */
 }
 
 .btn-primary {
-  background: #24292f;
-  border-color: #24292f;
-  color: white;
+  background: #24292f; /* Tmavé pozadí */
+  border-color: #24292f; /* Tmavý okraj */
+  color: white; /* Bílý text */
 }
 
 .btn-danger {
-  color: #b42318;
+  color: #b42318; /* Červený text */
 }
 
 .btn:hover {
-  opacity: 0.85;
-  text-decoration: none;
+  opacity: 0.85; /* Efekt při najetí */
+  text-decoration: none; /* Bez podtržení */
 }
 
 .table-wrapper {
-  overflow-x: auto;
-  background: white;
-  border: 1px solid #e5e7eb;
-  border-radius: 5px;
+  overflow-x: auto; /* Posouvání tabulky */
+  background: white; /* Bílé pozadí */
+  border: 1px solid #e5e7eb; /* Šedý okraj */
+  border-radius: 5px; /* Zaoblení rohů */
 }
 
 table {
-  width: 100%;
-  border-collapse: collapse;
+  width: 100%; /* Celá šířka */
+  border-collapse: collapse; /* Spojení okrajů */
 }
 
 th, td {
-  padding: 14px 18px;
-  text-align: left;
-  border-bottom: 1px solid #e5e7eb;
+  padding: 14px 18px; /* Odsazení buněk */
+  text-align: left; /* Zarovnání vlevo */
+  border-bottom: 1px solid #e5e7eb; /* Oddělení řádků */
 }
 
 th {
-  background: #fafafa;
-  color: #6b7280;
-  font-size: 12px;
-  font-weight: 600;
+  background: #fafafa; /* Pozadí hlavičky */
+  color: #6b7280; /* Šedý text */
+  font-size: 12px; /* Menší písmo */
+  font-weight: 600; /* Tučné písmo */
 }
 
 tr:last-child td {
-  border-bottom: none;
+  border-bottom: none; /* Bez spodního okraje */
 }
 
 .actions {
-  display: flex;
-  align-items: center;
-  gap: 52px;
+  display: flex; /* Tlačítka vedle sebe */
+  align-items: center; /* Svislé zarovnání */
+  gap: 52px; /* Mezery mezi akcemi */
 }
 
 .actions form {
-  margin: 0;
+  margin: 0; /* Bez okrajů formuláře */
 }
 
 .form-card {
-  max-width: 520px;
-  padding: 28px;
-  background: white;
-  border: 1px solid #e5e7eb;
-  border-radius: 5px;
+  max-width: 520px; /* Šířka formuláře */
+  padding: 28px; /* Vnitřní odsazení */
+  background: white; /* Bílé pozadí */
+  border: 1px solid #e5e7eb; /* Ohraničení */
+  border-radius: 5px; /* Zaoblení */
 }
 
 .form-group {
-  margin-bottom: 20px;
+  margin-bottom: 20px; /* Mezera mezi poli */
 }
 
 label {
-  display: block;
-  margin-bottom: 6px;
-  font-weight: 500;
+  display: block; /* Popisek na samostatném řádku */
+  margin-bottom: 6px; /* Mezera pod popiskem */
+  font-weight: 500; /* Tloušťka písma */
 }
 
 input, select {
-  width: 100%;
-  padding: 10px 12px;
-  border: 1px solid #d1d5db;
-  border-radius: 4px;
-  background: white;
-  font: inherit;
+  width: 100%; /* Celá šířka */
+  padding: 10px 12px; /* Vnitřní odsazení */
+  border: 1px solid #d1d5db; /* Ohraničení */
+  border-radius: 4px; /* Zaoblení rohů */
+  background: white; /* Bílé pozadí */
+  font: inherit; /* Písmo z rodiče */
 }
 
 input:focus, select:focus {
-  outline: 2px solid #93c5fd;
-  outline-offset: 1px;
+  outline: 2px solid #93c5fd; /* Zvýraznění aktivního pole */
+  outline-offset: 1px; /* Odsazení zvýraznění */
 }
 
 .form-actions {
-  display: flex;
-  gap: 10px;
-  margin-top: 24px;
+  display: flex; /* Tlačítka vedle sebe */
+  gap: 10px; /* Mezera mezi tlačítky */
+  margin-top: 24px; /* Horní odsazení */
 }
 
-@media (max-width: 600px) {
+@media (max-width: 600px) { /* Úprava pro mobily */
   .container {
-    margin: 30px auto;
-    padding: 0 16px;
+    margin: 30px auto; /* Menší odsazení */
+    padding: 0 16px; /* Menší vnitřní mezera */
   }
 
   .header {
-    align-items: flex-start;
-    gap: 16px;
+    align-items: flex-start; /* Zarovnání nahoru */
+    gap: 16px; /* Mezera mezi prvky */
   }
 }

@@ -1,31 +1,29 @@
-import vine from '@vinejs/vine'
+import vine from '@vinejs/vine' // Knihovna pro validaci údajů
 
-// Validace registrace
 export const signupValidator = vine.create({
-  fullName: vine.string().trim().minLength(2),
-  email: vine.string().trim().email(),
-  password: vine.string().minLength(8),
+  // Validace registrace
+  fullName: vine.string().trim().minLength(2), // Jméno alespoň 2 znaky
+  email: vine.string().trim().email(), // Kontrola formátu e-mailu
+  password: vine.string().minLength(8), // Heslo alespoň 8 znaků
 })
 
-// Validace přihlášení
 export const loginValidator = vine.create({
-  email: vine.string().trim().email(),
-  password: vine.string(),
+  // Validace přihlášení
+  email: vine.string().trim().email(), // Kontrola e-mailu
+  password: vine.string(), // Kontrola textového hesla
 })
 
-// Validace vytvoření uživatele administrátorem
 export const createUserValidator = vine.create({
-  fullName: vine.string().trim().minLength(2),
-
-  email: vine.string().trim().email(),
-
-  password: vine.string().minLength(8),
-
-  role: vine.enum(['admin', 'user']),
+  // Validace nového uživatele
+  fullName: vine.string().trim().minLength(2), // Kontrola jména
+  email: vine.string().trim().email(), // Kontrola e-mailu
+  password: vine.string().minLength(8), // Minimální délka hesla
+  role: vine.enum(['admin', 'user']), // Povolené uživatelské role
 })
 
 export const updateUserValidator = vine.create({
-  fullName: vine.string().trim().minLength(2),
-  email: vine.string().trim().email(),
-  role: vine.enum(['admin', 'user']),
+  // Validace úpravy uživatele
+  fullName: vine.string().trim().minLength(2), // Kontrola jména
+  email: vine.string().trim().email(), // Kontrola e-mailu
+  role: vine.enum(['admin', 'user']), // Povolené uživatelské role
 })
