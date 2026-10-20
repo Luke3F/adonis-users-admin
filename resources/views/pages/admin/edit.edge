@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <title>Upravit uživatele</title>
+</head>
+<body>
+  <h1>Upravit uživatele</h1>
+
+  <form method="POST" action="/admin/users/{{ user.id }}/update">
+    {{ csrfField() }}
+
+    <p>
+      <label>Jméno</label>
+      <input
+        type="text"
+        name="fullName"
+        value="{{ user.fullName || '' }}"
+        minlength="2"
+        required
+      >
+    </p>
+
+    <p>
+      <label>E-mail</label>
+      <input
+        type="email"
+        name="email"
+        value="{{ user.email }}"
+        required
+      >
+    </p>
+
+    <p>
+      <label>Role</label>
+      <select name="role">
+        <option value="user" @if(user.role === 'user') selected @endif>
+          Uživatel
+        </option>
+        <option value="admin" @if(user.role === 'admin') selected @endif>
+          Administrátor
+        </option>
+      </select>
+    </p>
+
+    <button type="submit">Uložit změny</button>
+  </form>
+
+  <p><a href="/admin/users">Zpět na seznam</a></p>
+</body>
+</html>

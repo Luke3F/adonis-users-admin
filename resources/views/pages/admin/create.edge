@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <title>Nový uživatel</title>
+</head>
+<body>
+  <h1>Přidat uživatele</h1>
+
+  <form method="POST" action="/admin/users">
+    {{ csrfField() }}
+
+    <p>
+      <label>Jméno</label>
+      <input type="text" name="fullName" required>
+    </p>
+
+    <p>
+      <label>E-mail</label>
+      <input type="email" name="email" required>
+    </p>
+
+    <p>
+      <label>Heslo</label>
+      <input type="password" name="password" minlength="8" required>
+    </p>
+
+    <p>
+      <label>Role</label>
+      <select name="role">
+        <option value="user">Uživatel</option>
+        <option value="admin">Administrátor</option>
+      </select>
+    </p>
+
+    <button type="submit">Vytvořit uživatele</button>
+  </form>
+
+  <p><a href="/admin/users">Zpět na seznam</a></p>
+</body>
+</html>

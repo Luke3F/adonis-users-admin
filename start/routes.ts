@@ -33,6 +33,13 @@ router
 router
   .group(() => {
     router.get('/users', [controllers.Users, 'index'])
+    router.get('/users/create', [controllers.Users, 'create'])
+    router.post('/users', [controllers.Users, 'store'])
+
+    router.get('/users/:id/edit', [controllers.Users, 'edit'])
+    router.post('/users/:id/update', [controllers.Users, 'update'])
+
+    router.post('/users/:id/delete', [controllers.Users, 'destroy'])
   })
   .prefix('/admin')
   .use([middleware.auth(), middleware.admin()])
